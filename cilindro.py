@@ -37,7 +37,7 @@ def cilindro():
     glEnd()
 
     #Drawing the side
-    glBegin(GL_POLYGON)    
+    glBegin(GL_TRIANGLE_STRIP)    
     for i in range(100):    
         cosine = radius * cos(i*2*pi/sides) + posx    
         sine  = radius * sin(i*2*pi/sides) + posy
