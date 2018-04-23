@@ -18,7 +18,7 @@ mask = c_uint()
 
 top_vertex=(1,0,0)
 
-def cilindro():
+def piramide_n_lados():
     #Drawing the base    
     posx, posy = 0,0    
     sides = 3
@@ -41,7 +41,7 @@ def cilindro():
 
 def abacaxi():
     glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT)
-    cilindro()
+    piramide_n_lados()
     glutSwapBuffers()
 
 def timer(i):
