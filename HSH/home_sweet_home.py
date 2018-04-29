@@ -91,12 +91,13 @@ def DrawHSH():
     glBindTexture(GL_TEXTURE_2D, texture[1])
     glBegin(GL_POLYGON)
 
-    glTexCoord2f(0, 320/533); glVertex3f(431/990, 0, -1 -(700-553/700) )
-    glTexCoord2f(214/853, 1); glVertex3f(857/990 + 213/853, 213/533 + 0, -1)
-    glTexCoord2f(425/853, 213/533); glVertex3f(1.0, 0, 0)
-    glTexCoord2f(1, 213/533); glVertex3f( 0, 0, 0)
-    glTexCoord2f(0, 1.0); glVertex3f(1.0, 0, 0)
-    glTexCoord2f(0, 0); glVertex3f( 0, 0, 0)
+    #to finish
+    #glTexCoord2f(0, 320/533); glVertex3f(431/990, 0, -1 -(700-553/700) )
+    #glTexCoord2f(214/853, 1); glVertex3f(857/990 + 213/853, 213/533 + 0, -1)
+    #glTexCoord2f(425/853, 213/533); glVertex3f(1.0, 0, 0)
+    #glTexCoord2f(1, 213/533); glVertex3f( 0, 0, 0)
+    #glTexCoord2f(0, 1.0); glVertex3f(1.0, 0, 0)
+    #glTexCoord2f(0, 0); glVertex3f( 0, 0, 0)
     
     #This homework code will take too much of my time time... =( 
 
