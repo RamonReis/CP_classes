@@ -20,67 +20,87 @@ dz = 0
 # texture = []
 
 def LoadTextures():
-    global texture_base
-    texture_base = glGenTextures(1)
-    texture_front = glGenTextures(2)
+    global texture
+    folder = "house_pieces_png/"
+    images = os.listdir(folder)
+    images.sort()#The images numbers start on '1' because the number 0 goes to the end of the array when the array is sorted
+    texture = glGenTextures(len(images))
 
     ################################################################################
-    glBindTexture(GL_TEXTURE_2D, texture_base)
-    reader = png.Reader(filename='house_pieces_png/base_casa.png')
-    w, h, pixels, metadata = reader.read_flat()
-    if(metadata['alpha']):
-        modo = GL_RGBA
-    else:
-        modo = GL_RGB
-    glPixelStorei(GL_UNPACK_ALIGNMENT,1)
-    glTexImage2D(GL_TEXTURE_2D, 0, modo, w, h, 0, modo, GL_UNSIGNED_BYTE, pixels.tolist())
-    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP)
-    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP)
-    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT)
-    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT)
-    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST)
-    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST)
-    glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL)
+    
+    for i in range(0,len(images)):
+        glBindTexture(GL_TEXTURE_2D, texture[i])
+        reader = png.Reader(filename=folder+images[i])
+        w, h, pixels, metadata = reader.read_flat()
+        if(metadata['alpha']):
+            modo = GL_RGBA
+        else:
+            modo = GL_RGB
+
+        glPixelStorei(GL_UNPACK_ALIGNMENT,1)
+        glTexImage2D(GL_TEXTURE_2D, 0, modo, w, h, 0, modo, GL_UNSIGNED_BYTE, pixels.tolist())
+        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP)
+        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP)
+        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT)
+        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT)
+        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST)
+        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST)
+        glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL)
+    
     ################################################################################
 
 def InitGL(Width, Height):
     LoadTextures()
     glEnable(GL_TEXTURE_2D)
     glClearColor(0.0, 0.0, 0.0, 0.0)
-    glClearDepth(1.0)
+    glClearDepth(0)
     #glDepthFunc(GL_LESS)
     #glEnable(GL_DEPTH_TEST)
     #glShadeModel(GL_SMOOTH)
 
     glMatrixMode(GL_PROJECTION)
-    gluPerspective(25.0, float(Width)/float(Height), 0.1, 0.0)
+    gluPerspective(45.0, float(Width)/float(Height), 0.1, 0.0)
 
     glMatrixMode(GL_MODELVIEW)
 
 
 def DrawHSH():
-    global xrot, yrot, zrot, texture_base
+    global xrot, yrot, zrot, texture
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
     glLoadIdentity()
 
     glClearColor(0,0,1,1.0)
 
-    glTranslatef(0.0,0.0,-5.0)
+    glTranslatef(-0.6,-0.5,-2.0)
+    glRotatef(45,10,0,0)
 
-
-    glBindTexture(GL_TEXTURE_2D, texture_base)
-    glBegin(GL_QUADS)
 
     # Base
-    glTexCoord2f(0, 1); glVertex3f(0, 1, 0)
-    glTexCoord2f(1, 1); glVertex3f(1, 1, 0)
-    glTexCoord2f(1.0, 0.0); glVertex3f(1.0, 0, 0)
+    glBindTexture(GL_TEXTURE_2D, texture[0])
+    glBegin(GL_QUADS)
+
+    glTexCoord2f(0, 0); glVertex3f(0, 0, -1)
+    glTexCoord2f(1, 0); glVertex3f(1, 0, -1)
+    glTexCoord2f(1.0, 1.0); glVertex3f(1.0, 0, 0)
+    glTexCoord2f(0, 1); glVertex3f( 0, 0, 0)
+    
+    glEnd()
+
+    # Frente
+    glBindTexture(GL_TEXTURE_2D, texture[1])
+    glBegin(GL_POLYGON)
+
+    glTexCoord2f(0, 320/533); glVertex3f(431/990, 0, -1 -(700-553/700) )
+    glTexCoord2f(214/853, 1); glVertex3f(857/990 + 213/853, 213/533 + 0, -1)
+    glTexCoord2f(425/853, 213/533); glVertex3f(1.0, 0, 0)
+    glTexCoord2f(1, 213/533); glVertex3f( 0, 0, 0)
+    glTexCoord2f(0, 1.0); glVertex3f(1.0, 0, 0)
     glTexCoord2f(0, 0); glVertex3f( 0, 0, 0)
     
+    #This homework code will take too much of my time time... =( 
 
-
-    glEnd()                # Done Drawing The Cube
+    glEnd()
 
     glutSwapBuffers()
 
@@ -105,8 +125,6 @@ def main():
     InitGL(800, 600)
 
     # Start Event Processing Engine
-    glTranslatef(0.0,0,0)
-    #glRotatef(45,10,10,0)
     glutMainLoop()
 
 # Print message to console, and kick off the main to get it rolling.
